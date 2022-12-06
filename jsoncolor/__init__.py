@@ -1,1 +1,1 @@
-from jsoncolor import *
+from . jsoncolor import jprint, usage

@@ -1,5 +1,8 @@
 from setuptools import setup, find_packages
-import __version__
+try:
+    from . import __version__
+except:
+    import __version__
 version = __version__.version
 import os, sys
 import shutil
@@ -25,7 +28,10 @@ def get_version():
         return vi._get_canonical(), vi._get_dev_status()
     else:
         import imp
-        vi = imp.load_source("meat", "__meta__.py")
+        try:
+            vi = imp.load_source("meta", "__meta__.py")
+        except:
+            vi = imp.load_source("meta", os.path.join(NAME, "__meta__.py"))
         return vi.__version__, vi.__status__
 
 
@@ -58,21 +64,21 @@ try:
 except:
     pass
 try:
-	shutil.copy2('__version__.py', NAME)
+    shutil.copy2('__version__.py', NAME)
 except:
-	pass
+    pass
 
 entry_points = {
     "console_scripts": [
         "jprint = jsoncolor:usage",
-        ]
-    }
+    ]
+}
 
 if sys.version_info.major == 3:
     entry_points = {
-    "console_scripts": [
+        "console_scripts": [
         "jprint3 = jsoncolor:usage",
-        ]
+    ]
     }
 
 setup(
@@ -101,5 +107,5 @@ setup(
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 3",
         'Topic :: Software Development :: Libraries :: Python Modules'
-    ],
+        ],
 )

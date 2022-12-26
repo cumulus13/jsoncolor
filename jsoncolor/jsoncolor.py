@@ -16,7 +16,7 @@ def jprint(data, sort=True, indent = 4):
 	if sys.version_info.major == 3:
 		colorful_json = highlight(bytes(data, encoding='UTF-8'), lexers.JsonLexer(), formatters.TerminalFormatter())
 	else:
-		colorful_json = highlight(unicode(data, 'UTF-8'), lexers.JsonLexer(), formatter.TerminalFormatter())
+		colorful_json = highlight(unicode(data, 'UTF-8'), lexers.JsonLexer(), formatters.TerminalFormatter())
 	print(colorful_json)
 
 def usage(text = None):

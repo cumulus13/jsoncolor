@@ -1,18 +1,24 @@
 from setuptools import setup, find_packages
-try:
-    from . import __version__
-except:
-    import __version__
-version = __version__.version
+
 import os, sys
 import shutil
 
 NAME = "jsoncolor"
 
+try:
+    os.remove(os.path.join(NAME, '__version__.py'))
+except:
+    pass
+try:
+    shutil.copy2('__version__.py', NAME)
+    shutil.copy2('__meta__.py', NAME)
+except:
+    pass
+    
 def get_version():
     """Get version and version_info without importing the entire module."""
     print("NAME:", NAME)
-    path = os.path.join(os.path.dirname(__file__), NAME, '__meta__.py')
+    path = os.path.join(os.path.dirname(__file__), '__meta__.py')
 
     if sys.version_info.major == 3:
         import importlib.util
@@ -33,8 +39,6 @@ def get_version():
         except:
             vi = imp.load_source("meta", os.path.join(NAME, "__meta__.py"))
         return vi.__version__, vi.__status__
-
-
 
 def get_requirements(req):
     """Load list of dependencies."""
@@ -59,44 +63,45 @@ def get_description():
 
 VER, DEVSTATUS = get_version()
 
-try:
-    os.remove(os.path.join(NAME, '__version__.py'))
-except:
-    pass
-try:
-    shutil.copy2('__version__.py', NAME)
-except:
-    pass
-
 entry_points = {
     "console_scripts": [
-        "jprint = jsoncolor:usage",
+        "{} = {}.__main__:usage".format(NAME, NAME),
     ]
 }
 
 if sys.version_info.major == 3:
     entry_points = {
         "console_scripts": [
-        "jprint3 = jsoncolor:usage",
-    ]
+        "{}3 = {}.__main__:usage".format(NAME, NAME),
+        ]
     }
+    
+data_files = ['__version__.py', '__meta__.py', 'requirements.txt', 'README.md']
+
 
 setup(
     name = NAME,
     version=VER or version,
-    author = 'Hadi Cahyadi LD',
+    author = 'cumulus13',
     author_email = 'cumulus13@gmail.com',
+    maintenance = 'cumulus13',
+    maintenance_email = 'cumulus13@gmail.com',
     description = ('print json color on terminal/cmd'),
+    long_description = get_description(),
+    long_description_content_type = 'text/markdown', 
     license = 'MIT License',
-    keywords = "print json color on terminal/cmd",
-    url = 'https://github.com/cumulus13/jsoncolor',
+    keywords = ["print json color on terminal/cmd"],
+    url = 'https://github.com/cumulus13/{}'.format(NAME),
     scripts = [],
     # py_modules = [NAME],
     packages = [NAME],
-    download_url = 'https://github.com/cumulus13/jsoncolor/tarball/master',
-    install_requires=['clipboard', 'pygments'],
+    download_url = 'https://github.com/cumulus13/{}/tarball/master'.format(NAME),
+    install_requires=get_requirements('requirements.txt'),
     entry_points = entry_points,
     python_requires=">=2.7",
+    include_package_data=True,
+    package_data={'': ['*.txt', '*.ini']},
+    data_files=data_files,
     classifiers=[
         'Development Status :: %s' % DEVSTATUS,
         'Environment :: Console',

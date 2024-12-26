@@ -1,3 +1,4 @@
-from . jsoncolor import usage
+from . jsoncolor import jprint, usage
 
-usage()
+def usage():
+    return usage

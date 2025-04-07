@@ -5,8 +5,12 @@
 
 from __future__ import print_function
 import sys
-from ctraceback import CTraceback
-sys.excepthook = CTraceback
+try:
+	from ctraceback import CTraceback
+	sys.excepthook = CTraceback
+except:
+	CTraceback = None
+
 from pygments import highlight, lexers, formatters
 from pygments.styles import get_all_styles
 import json

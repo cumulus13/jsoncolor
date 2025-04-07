@@ -1,5 +1,4 @@
 pygments
 clipboard
-ctraceback
 json5
 argparse

@@ -37,7 +37,6 @@ setup(
     install_requires=[
         'pygments',
         'clipboard',
-        'ctraceback',
         'json5',
         'argparse'
     ],
